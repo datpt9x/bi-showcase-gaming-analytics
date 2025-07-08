@@ -34,7 +34,8 @@ function App() {
           <Route path="/metrics" element={<MetricsLibrary />} />
           <Route path="/analytics" element={<AdvancedAnalytics />} />
           <Route path="/development" element={<DevelopmentGuide />} />
-          {/* More routes will be added here */}
+          {/* Catch-all route for 404 - redirect to home */}
+          <Route path="*" element={<HomePage />} />
         </Routes>
         <Footer />
         <MobileOptimizations />

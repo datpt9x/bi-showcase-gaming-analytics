@@ -1,0 +1,10 @@
+node_modules
+.git
+*.log
+.env*
+.DS_Store
+src
+public/vite.svg
+*.md
+TESTING_CHECKLIST.md
+NAVIGATION_TEST.md
