@@ -17,6 +17,7 @@ import ChartGallery from './components/Charts/ChartGallery';
 import MetricsLibrary from './components/Metrics/MetricsLibrary';
 import DevelopmentGuide from './components/Development/DevelopmentGuide';
 import AdvancedAnalytics from './components/Analytics/AdvancedAnalytics';
+import MonetizationPage from './pages/MonetizationPage';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Default open on desktop
@@ -72,6 +73,7 @@ function App() {
           <Route path="/charts" element={<ChartGallery />} />
           <Route path="/metrics" element={<MetricsLibrary />} />
           <Route path="/analytics" element={<AdvancedAnalytics />} />
+          <Route path="/monetization" element={<MonetizationPage />} />
               <Route path="/development" element={<DevelopmentGuide />} />
               {/* More routes will be added here */}
             </Routes>

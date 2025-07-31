@@ -12,7 +12,8 @@ import {
   BarChart3,
   BookOpen,
   Settings,
-  ChevronRight
+  ChevronRight,
+  DollarSign
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -68,6 +69,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           path: '/dashboard/growth-engagement',
           icon: <TrendingUp className="h-5 w-5" />,
           description: 'Growth & Product Teams'
+        },
+        {
+          title: 'Monetization Analytics',
+          path: '/monetization',
+          icon: <DollarSign className="h-5 w-5" />,
+          description: 'Ad Revenue & Performance'
         }
       ]
     },
