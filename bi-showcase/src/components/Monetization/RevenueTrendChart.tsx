@@ -1,28 +1,8 @@
 import React from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { LineChart } from '../Charts/EChartsComponents';
 import { TrendData } from '../../services/MonetizationDataService';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
+
 
 interface RevenueTrendChartProps {
   data: TrendData[];
@@ -155,8 +135,8 @@ const RevenueTrendChart: React.FC<RevenueTrendChartProps> = ({ data }) => {
   }
 
   return (
-    <div className="h-64">
-      <Line data={chartData} options={options} />
+    <div className="chart-md">
+      <LineChart data={chartData} options={options} theme="light" />
     </div>
   );
 };

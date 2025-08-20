@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-import { Line, Bar, Scatter } from 'react-chartjs-2';
+import { LineChart, BarChart, DoughnutChart, PieChart, RadarChart, ScatterChart } from '../Charts/EChartsComponents';
 import { useMobileOptimizations } from '../Layout/MobileOptimizations';
 import {
   Brain,
@@ -21,7 +9,7 @@ import {
   Zap,
   Eye,
   BarChart3,
-  PieChart,
+  PieChart as PieChartIcon,
   Activity,
   Layers,
   Filter,
@@ -33,18 +21,6 @@ import {
   CheckCircle,
   Clock
 } from 'lucide-react';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
 
 const AdvancedAnalytics: React.FC = () => {
   const [selectedFeature, setSelectedFeature] = useState('predictive');
@@ -236,7 +212,7 @@ const AdvancedAnalytics: React.FC = () => {
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
               <h3 className="text-xl font-semibold text-white mb-4">Revenue Forecasting</h3>
               <div className="h-80">
-                <Line data={predictiveData} options={chartOptions} />
+                <LineChart data={predictiveData} options={chartOptions} theme="dark" />
               </div>
               <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="bg-blue-900/20 border border-blue-700/30 rounded p-3">
@@ -265,7 +241,7 @@ const AdvancedAnalytics: React.FC = () => {
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
               <h3 className="text-xl font-semibold text-white mb-4">Cohort Retention Analysis</h3>
               <div className="h-80">
-                <Line data={cohortData} options={chartOptions} />
+                <LineChart data={cohortData} options={chartOptions} theme="dark" />
               </div>
               <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="bg-blue-900/20 border border-blue-700/30 rounded p-3">
@@ -294,7 +270,7 @@ const AdvancedAnalytics: React.FC = () => {
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
               <h3 className="text-xl font-semibold text-white mb-4">AI-Powered User Segmentation</h3>
               <div className="h-80">
-                <Bar data={segmentationData} options={chartOptions} />
+                <BarChart data={segmentationData} options={chartOptions} theme="dark" />
               </div>
               <div className="mt-4 grid grid-cols-1 md:grid-cols-5 gap-2 text-xs">
                 <div className="bg-green-900/20 border border-green-700/30 rounded p-2 text-center">
@@ -333,7 +309,7 @@ const AdvancedAnalytics: React.FC = () => {
             <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
               <h3 className="text-xl font-semibold text-white mb-4">Anomaly Detection</h3>
               <div className="h-80">
-                <Line data={anomalyData} options={chartOptions} />
+                <LineChart data={anomalyData} options={chartOptions} theme="dark" />
               </div>
               <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                 <div className="bg-red-900/20 border border-red-700/30 rounded p-3">

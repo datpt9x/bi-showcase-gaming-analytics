@@ -6,7 +6,7 @@
 
 ### **Target Audiences**
 1. **Business Users** - Understanding BI value and decision-making capabilities
-2. **Development Teams** - Learning implementation strategies and best practices  
+2. **Development Teams** - Learning implementation strategies and best practices
 3. **Decision Makers** - Seeing ROI and investment justification
 
 ---
@@ -79,7 +79,7 @@
 - **React 18** with TypeScript for type safety
 - **Vite** for fast development and optimized builds
 - **Tailwind CSS** for responsive, mobile-first design
-- **Chart.js + react-chartjs-2** for interactive visualizations
+- **ECharts + echarts-for-react** for interactive visualizations
 - **React Router** for seamless navigation
 - **Lucide React** for consistent iconography
 

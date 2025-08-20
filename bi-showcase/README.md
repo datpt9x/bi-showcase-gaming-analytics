@@ -50,7 +50,7 @@ This website serves as both a **demonstration platform** and a **comprehensive g
 - **React 18** with TypeScript
 - **Vite** for fast development and building
 - **Tailwind CSS** for responsive design
-- **Chart.js** with react-chartjs-2 for visualizations
+- **ECharts** with echarts-for-react for interactive visualizations
 - **React Router** for navigation
 - **Framer Motion** for animations
 - **Lucide React** for icons

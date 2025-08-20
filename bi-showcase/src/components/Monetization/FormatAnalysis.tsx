@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
+import { DoughnutChart } from '../Charts/EChartsComponents';
 import { MousePointer, Eye, Percent } from 'lucide-react';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+
 
 interface FormatData {
   name: string;
@@ -125,8 +119,8 @@ const FormatAnalysis: React.FC<FormatAnalysisProps> = ({ data }) => {
   return (
     <div className="space-y-4">
       {/* Donut Chart */}
-      <div className="h-48 relative">
-        <Doughnut data={chartData} options={chartOptions} />
+      <div className="chart-md relative">
+        <DoughnutChart data={chartData} options={chartOptions} theme="light" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center">
             <div className="text-2xl font-bold text-gray-900">
@@ -184,7 +178,7 @@ const FormatAnalysis: React.FC<FormatAnalysisProps> = ({ data }) => {
                 {format.share.toFixed(1)}% share
               </span>
             </div>
-            
+
             <div className="grid grid-cols-3 gap-3 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-gray-600 flex items-center">

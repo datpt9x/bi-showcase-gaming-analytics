@@ -76,8 +76,8 @@ const FilterPresets: React.FC<FilterPresetsProps> = ({ currentFilters, onApplyPr
   const saveEdit = () => {
     if (!editName.trim()) return;
 
-    setPresets(prev => prev.map(preset => 
-      preset.id === editingPreset 
+    setPresets(prev => prev.map(preset =>
+      preset.id === editingPreset
         ? { ...preset, name: editName.trim() }
         : preset
     ));
@@ -92,23 +92,23 @@ const FilterPresets: React.FC<FilterPresetsProps> = ({ currentFilters, onApplyPr
 
   const getFilterSummary = (filters: any) => {
     const summary: string[] = [];
-    
+
     if (filters.dateRange?.start && filters.dateRange?.end) {
       summary.push(`Date: ${filters.dateRange.start} to ${filters.dateRange.end}`);
     }
-    
+
     if (filters.apps?.length) {
       summary.push(`Apps: ${filters.apps.length} selected`);
     }
-    
+
     if (filters.adSources?.length) {
       summary.push(`Ad Sources: ${filters.adSources.length} selected`);
     }
-    
+
     if (filters.countries?.length) {
       summary.push(`Countries: ${filters.countries.length} selected`);
     }
-    
+
     if (filters.formats?.length) {
       summary.push(`Formats: ${filters.formats.length} selected`);
     }
@@ -229,7 +229,7 @@ const FilterPresets: React.FC<FilterPresetsProps> = ({ currentFilters, onApplyPr
                   </>
                 )}
               </div>
-              
+
               {editingPreset !== preset.id && (
                 <div className="text-xs text-gray-500">
                   Saved on {new Date(preset.createdAt).toLocaleDateString()}

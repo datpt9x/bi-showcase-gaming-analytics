@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
+import { LineChart, BarChart, DoughnutChart } from '../Charts/EChartsComponents';
 import { useMobileOptimizations } from '../Layout/MobileOptimizations';
 import { useGameData } from '../../hooks/useGameData';
 import {
@@ -34,34 +22,22 @@ import {
   MessageCircle
 } from 'lucide-react';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
-
 const GrowthEngagementDashboard: React.FC = () => {
   const [isSimulating, setIsSimulating] = useState(false);
   const [selectedTimeframe, setSelectedTimeframe] = useState('7d');
-  const { 
-    getGridClass, 
-    isMobile, 
-    isTablet 
+  const {
+    getGridClass,
+    isMobile,
+    isTablet
   } = useMobileOptimizations();
-  
-  const { 
-    aggregatedMetrics, 
-    getChartData, 
-    isLoading, 
-    startSimulation, 
-    stopSimulation, 
-    refreshData 
+
+  const {
+    aggregatedMetrics,
+    getChartData,
+    isLoading,
+    startSimulation,
+    stopSimulation,
+    refreshData
   } = useGameData();
 
   // Growth & Engagement KPIs
@@ -242,9 +218,9 @@ const GrowthEngagementDashboard: React.FC = () => {
             <h1 className="text-3xl font-bold mb-2">Growth & Engagement Dashboard</h1>
             <p className="text-gray-400">Track user growth, viral metrics, and engagement patterns</p>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 mt-4 lg:mt-0">
-            <select 
+            <select
               value={selectedTimeframe}
               onChange={(e) => setSelectedTimeframe(e.target.value)}
               className="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-white"
@@ -254,20 +230,20 @@ const GrowthEngagementDashboard: React.FC = () => {
               <option value="30d">Last 30 Days</option>
               <option value="90d">Last 90 Days</option>
             </select>
-            
+
             <div className="flex gap-2">
               <button
                 onClick={handleSimulationToggle}
                 className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${
-                  isSimulating 
-                    ? 'bg-red-600 hover:bg-red-700' 
+                  isSimulating
+                    ? 'bg-red-600 hover:bg-red-700'
                     : 'bg-green-600 hover:bg-green-700'
                 }`}
               >
                 {isSimulating ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
                 {isSimulating ? 'Stop' : 'Start'} Simulation
               </button>
-              
+
               <button
                 onClick={refreshData}
                 className="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg font-medium transition-colors"
@@ -306,16 +282,16 @@ const GrowthEngagementDashboard: React.FC = () => {
           {/* Growth Trend Chart */}
           <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
             <h3 className="text-xl font-semibold text-white mb-4">Growth & Engagement Trends</h3>
-            <div className="h-80">
-              <Line data={growthTrendData} options={chartOptions} />
+            <div className="chart-lg">
+              <LineChart data={growthTrendData} options={chartOptions} theme="dark" />
             </div>
           </div>
 
           {/* Viral Acquisition Sources */}
           <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
             <h3 className="text-xl font-semibold text-white mb-4">User Acquisition Sources</h3>
-            <div className="h-80">
-              <Doughnut data={viralMetricsData} options={doughnutOptions} />
+            <div className="chart-lg">
+              <DoughnutChart data={viralMetricsData} options={doughnutOptions} theme="dark" />
             </div>
           </div>
         </div>

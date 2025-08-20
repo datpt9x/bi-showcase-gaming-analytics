@@ -1,26 +1,8 @@
 import React from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { LineChart } from '../Charts/EChartsComponents';
 import { TrendData } from '../../services/MonetizationDataService';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+
 
 interface PerformanceMetricsChartProps {
   data: TrendData[];
@@ -106,7 +88,7 @@ const PerformanceMetricsChart: React.FC<PerformanceMetricsChartProps> = ({ data 
           label: (context: any) => {
             const datasetLabel = context.dataset.label;
             const value = context.parsed.y;
-            
+
             if (datasetLabel === 'eCPM ($)') {
               return `${datasetLabel}: $${value.toFixed(2)}`;
             } else {
@@ -207,8 +189,8 @@ const PerformanceMetricsChart: React.FC<PerformanceMetricsChartProps> = ({ data 
   }
 
   return (
-    <div className="h-64">
-      <Line data={chartData} options={options} />
+    <div className="chart-md">
+      <LineChart data={chartData} options={options} theme="light" />
     </div>
   );
 };

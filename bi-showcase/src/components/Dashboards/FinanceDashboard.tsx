@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
+import { LineChart, BarChart, DoughnutChart } from '../Charts/EChartsComponents';
 import { useMobileOptimizations } from '../Layout/MobileOptimizations';
 import { useGameData } from '../../hooks/useGameData';
 import {
@@ -39,29 +27,19 @@ import {
   MousePointer
 } from 'lucide-react';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
+
 
 const FinanceDashboard: React.FC = () => {
   const [timeRange, setTimeRange] = useState('30d');
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const { isMobile, getGridClass, getButtonClass, getChartOptions } = useMobileOptimizations();
-  const { 
-    aggregatedMetrics, 
-    isLoading, 
-    isSimulating, 
-    startSimulation, 
-    stopSimulation, 
-    refreshData 
+  const {
+    aggregatedMetrics,
+    isLoading,
+    isSimulating,
+    startSimulation,
+    stopSimulation,
+    refreshData
   } = useGameData();
 
   // Finance KPIs
@@ -353,11 +331,11 @@ const FinanceDashboard: React.FC = () => {
             <h1 className="text-3xl font-bold text-white mb-2">Finance Dashboard</h1>
             <p className="text-gray-400">Financial performance, budget management, and investment analysis</p>
           </div>
-          
+
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <div className="flex items-center space-x-2">
               <Globe className="h-4 w-4 text-gray-400" />
-              <select 
+              <select
                 value={selectedCurrency}
                 onChange={(e) => setSelectedCurrency(e.target.value)}
                 className="bg-gray-700 text-white px-3 py-1 rounded border border-gray-600"
@@ -371,7 +349,7 @@ const FinanceDashboard: React.FC = () => {
 
             <div className="flex items-center space-x-2">
               <Calendar className="h-4 w-4 text-gray-400" />
-              <select 
+              <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
                 className="bg-gray-700 text-white px-3 py-1 rounded border border-gray-600"
@@ -382,7 +360,7 @@ const FinanceDashboard: React.FC = () => {
                 <option value="1y">Last year</option>
               </select>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <button
                 onClick={isSimulating ? stopSimulation : startSimulation}
@@ -395,7 +373,7 @@ const FinanceDashboard: React.FC = () => {
                 {isSimulating ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                 <span>{isSimulating ? 'LIVE' : 'START'}</span>
               </button>
-              
+
               <button
                 onClick={refreshData}
                 className={`${getButtonClass()} rounded font-medium transition-colors bg-blue-600 hover:bg-blue-700 text-white flex items-center space-x-2`}
@@ -455,8 +433,8 @@ const FinanceDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">P&L Trend</h3>
               <BarChart3 className="h-5 w-5 text-green-400" />
             </div>
-            <div className="h-64">
-              <Line data={plTrendData} options={chartOptions} />
+            <div className="chart-md">
+              <LineChart data={plTrendData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               Net profit margin improved to <span className="text-green-400 font-semibold">34.5%</span> in June
@@ -469,8 +447,8 @@ const FinanceDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">Revenue by Game</h3>
               <PieChart className="h-5 w-5 text-blue-400" />
             </div>
-            <div className="h-64">
-              <Doughnut data={revenueBreakdownData} options={chartOptions} />
+            <div className="chart-md">
+              <DoughnutChart data={revenueBreakdownData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               Game A contributes <span className="text-blue-400 font-semibold">33%</span> of total revenue
@@ -486,8 +464,8 @@ const FinanceDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">Cost Structure</h3>
               <Calculator className="h-5 w-5 text-orange-400" />
             </div>
-            <div className="h-64">
-              <Doughnut data={costStructureData} options={chartOptions} />
+            <div className="chart-md">
+              <DoughnutChart data={costStructureData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               User acquisition represents <span className="text-red-400 font-semibold">35%</span> of total costs
@@ -500,8 +478,8 @@ const FinanceDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">Regional Revenue</h3>
               <Globe className="h-5 w-5 text-purple-400" />
             </div>
-            <div className="h-64">
-              <Bar data={regionalRevenueData} options={chartOptions} />
+            <div className="chart-md">
+              <BarChart data={regionalRevenueData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               Asia Pacific shows strongest growth at <span className="text-green-400 font-semibold">+18%</span> QoQ

@@ -87,7 +87,7 @@ const CountryPerformance: React.FC<CountryPerformanceProps> = ({ data }) => {
     <div className="space-y-3">
       {data.map((country, index) => {
         const revenuePercentage = maxRevenue > 0 ? (country.revenue / maxRevenue) * 100 : 0;
-        
+
         return (
           <div key={index} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
             {/* Header */}

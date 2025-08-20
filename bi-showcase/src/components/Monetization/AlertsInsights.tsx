@@ -39,7 +39,7 @@ const AlertsInsights: React.FC<AlertsInsightsProps> = ({ data, kpis, trendData, 
       const latest = trendData[trendData.length - 1];
       const previous = trendData[trendData.length - 2];
       const revenueChange = ((latest.revenue - previous.revenue) / previous.revenue) * 100;
-      
+
       if (revenueChange < -20) {
         alerts.push({
           id: 'revenue-decline',
@@ -98,10 +98,10 @@ const AlertsInsights: React.FC<AlertsInsightsProps> = ({ data, kpis, trendData, 
     }
 
     // Ad Source performance alerts
-    const underperformingSources = breakdownData.adSources.filter(source => 
+    const underperformingSources = breakdownData.adSources.filter(source =>
       source.fillRate < 50 && source.revenue > 0
     );
-    
+
     if (underperformingSources.length > 0) {
       alerts.push({
         id: 'ad-source-performance',
@@ -136,10 +136,10 @@ const AlertsInsights: React.FC<AlertsInsightsProps> = ({ data, kpis, trendData, 
     }
 
     // Country expansion opportunity
-    const highARPUCountries = breakdownData.countries.filter(country => 
+    const highARPUCountries = breakdownData.countries.filter(country =>
       country.arpu > 0.01 && country.activeUsers < 50000
     );
-    
+
     if (highARPUCountries.length > 0) {
       const topCountry = highARPUCountries[0];
       insights.push({
@@ -154,10 +154,10 @@ const AlertsInsights: React.FC<AlertsInsightsProps> = ({ data, kpis, trendData, 
     }
 
     // Format optimization
-    const lowCTRFormats = breakdownData.formats.filter(format => 
+    const lowCTRFormats = breakdownData.formats.filter(format =>
       format.ctr < 2 && format.revenue > 1000
     );
-    
+
     if (lowCTRFormats.length > 0) {
       const format = lowCTRFormats[0];
       insights.push({
@@ -175,7 +175,7 @@ const AlertsInsights: React.FC<AlertsInsightsProps> = ({ data, kpis, trendData, 
     const topSourceRevenue = breakdownData.adSources[0]?.revenue || 0;
     const totalRevenue = breakdownData.adSources.reduce((sum, source) => sum + source.revenue, 0);
     const concentration = totalRevenue > 0 ? (topSourceRevenue / totalRevenue) * 100 : 0;
-    
+
     if (concentration > 60) {
       insights.push({
         id: 'revenue-concentration',
@@ -193,7 +193,7 @@ const AlertsInsights: React.FC<AlertsInsightsProps> = ({ data, kpis, trendData, 
       const recentAvg = trendData.slice(-3).reduce((sum, d) => sum + d.revenue, 0) / 3;
       const previousAvg = trendData.slice(-7, -3).reduce((sum, d) => sum + d.revenue, 0) / 4;
       const trendChange = ((recentAvg - previousAvg) / previousAvg) * 100;
-      
+
       if (Math.abs(trendChange) > 10) {
         insights.push({
           id: 'trend-analysis',
@@ -201,8 +201,8 @@ const AlertsInsights: React.FC<AlertsInsightsProps> = ({ data, kpis, trendData, 
           title: 'Revenue Trend Analysis',
           description: `Revenue shows ${trendChange > 0 ? 'positive' : 'negative'} trend of ${Math.abs(trendChange).toFixed(1)}%`,
           impact: 'medium',
-          action: trendChange > 0 ? 
-            'Capitalize on positive momentum with increased ad inventory' : 
+          action: trendChange > 0 ?
+            'Capitalize on positive momentum with increased ad inventory' :
             'Investigate causes and implement optimization strategies',
           icon: trendChange > 0 ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />
         });
@@ -276,8 +276,8 @@ const AlertsInsights: React.FC<AlertsInsightsProps> = ({ data, kpis, trendData, 
                     <div className="flex items-center text-xs">
                       <span className="font-medium">{alert.metric}:</span>
                       <span className="ml-1">
-                        {alert.metric.includes('%') ? 
-                          `${alert.value.toFixed(1)}%` : 
+                        {alert.metric.includes('%') ?
+                          `${alert.value.toFixed(1)}%` :
                           alert.value.toFixed(2)
                         }
                       </span>

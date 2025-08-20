@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
+import { LineChart, BarChart, DoughnutChart } from '../Charts/EChartsComponents';
 import { useMobileOptimizations } from '../Layout/MobileOptimizations';
 import { useGameData } from '../../hooks/useGameData';
 import {
@@ -32,17 +20,7 @@ import {
   Crown
 } from 'lucide-react';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
+
 
 const ExecutiveDashboard: React.FC = () => {
   const [timeRange, setTimeRange] = useState('7d');
@@ -264,24 +242,24 @@ const ExecutiveDashboard: React.FC = () => {
           {/* Revenue Trend */}
           <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
             <h3 className="text-xl font-semibold text-white mb-4">Revenue Trend</h3>
-            <div className="h-64">
-              <Line data={revenueData} options={chartOptions} />
+            <div className="chart-md">
+              <LineChart data={revenueData} options={chartOptions} theme="dark" />
             </div>
           </div>
 
           {/* Portfolio Performance */}
           <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
             <h3 className="text-xl font-semibold text-white mb-4">Portfolio Performance</h3>
-            <div className="h-64">
-              <Doughnut data={portfolioData} options={chartOptions} />
+            <div className="chart-md">
+              <DoughnutChart data={portfolioData} options={chartOptions} theme="dark" />
             </div>
           </div>
 
           {/* Geographic Performance */}
           <div className={`bg-gray-800 rounded-lg p-6 border border-gray-700 ${!isMobile ? 'lg:col-span-2' : ''}`}>
             <h3 className="text-xl font-semibold text-white mb-4">Revenue by Region</h3>
-            <div className="h-64">
-              <Bar data={geoData} options={chartOptions} />
+            <div className="chart-md">
+              <BarChart data={geoData} options={chartOptions} theme="dark" />
             </div>
           </div>
         </div>

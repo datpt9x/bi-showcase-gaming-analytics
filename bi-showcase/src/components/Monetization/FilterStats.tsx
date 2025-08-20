@@ -113,14 +113,14 @@ const FilterStats: React.FC<FilterStatsProps> = ({
             ${totalUsers > 0 ? (totalRevenue / totalUsers).toFixed(4) : '0.0000'} ARPU
           </span>
         </div>
-        
+
         <div className="flex items-center justify-center p-2 bg-gray-50 rounded">
           <Eye className="w-3 h-3 text-blue-500 mr-1" />
           <span className="text-gray-700">
             {totalImpressions > 0 ? (totalRevenue / totalImpressions * 1000).toFixed(2) : '0.00'} eCPM
           </span>
         </div>
-        
+
         <div className="flex items-center justify-center p-2 bg-gray-50 rounded">
           <TrendingUp className="w-3 h-3 text-purple-500 mr-1" />
           <span className="text-gray-700">

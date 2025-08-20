@@ -61,7 +61,7 @@ const AdSourceBreakdown: React.FC<AdSourceBreakdownProps> = ({ data }) => {
     <div className="space-y-4">
       {data.map((source, index) => {
         const revenuePercentage = maxRevenue > 0 ? (source.revenue / maxRevenue) * 100 : 0;
-        
+
         return (
           <div key={index} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
             {/* Header */}

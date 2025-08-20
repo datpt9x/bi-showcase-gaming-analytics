@@ -59,7 +59,7 @@ const CSVImporter: React.FC<CSVImporterProps> = ({ onImport, onClose }) => {
     try {
       const text = await selectedFile.text();
       const lines = text.trim().split('\n');
-      
+
       if (lines.length < 2) {
         throw new Error('CSV file must contain at least a header row and one data row');
       }
@@ -76,7 +76,7 @@ const CSVImporter: React.FC<CSVImporterProps> = ({ onImport, onClose }) => {
         'Bids in auction', 'Win rate', 'Winning bids'
       ];
 
-      const missingHeaders = expectedHeaders.filter(header => 
+      const missingHeaders = expectedHeaders.filter(header =>
         !headers.some(h => h.trim().toLowerCase() === header.toLowerCase())
       );
 
@@ -87,12 +87,12 @@ const CSVImporter: React.FC<CSVImporterProps> = ({ onImport, onClose }) => {
       // Parse the data
       const parsedData = monetizationDataService.parseCSV(text);
       const validRows = parsedData.filter(row => row.estimatedEarnings > 0 || row.impressions > 0);
-      
+
       setPreview(validRows.slice(0, 10)); // Show first 10 rows as preview
       setImportStats({
         totalRows: lines.length - 1, // Exclude header
         validRows: validRows.length,
-        errors: parsedData.length !== validRows.length ? 
+        errors: parsedData.length !== validRows.length ?
           [`${parsedData.length - validRows.length} rows with invalid or zero values were filtered out`] : []
       });
 
@@ -214,7 +214,7 @@ const CSVImporter: React.FC<CSVImporterProps> = ({ onImport, onClose }) => {
                     ({(file.size / 1024).toFixed(1)} KB)
                   </span>
                 </div>
-                
+
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <span className="text-gray-600">Total Rows:</span>

@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
+import { LineChart, BarChart, DoughnutChart, PieChart, RadarChart, ScatterChart } from '../Charts/EChartsComponents';
 import { useMobileOptimizations } from '../Layout/MobileOptimizations';
 import { useGameData } from '../../hooks/useGameData';
 import {
@@ -33,18 +21,6 @@ import {
   Percent,
   UserCheck
 } from 'lucide-react';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
 
 const UAMonetizationDashboard: React.FC = () => {
   const [timeRange, setTimeRange] = useState('7d');
@@ -428,8 +404,8 @@ const UAMonetizationDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">Campaign Performance</h3>
               <Target className="h-5 w-5 text-blue-400" />
             </div>
-            <div className="h-64">
-              <Bar data={campaignData} options={campaignOptions} />
+            <div className="chart-md">
+              <BarChart data={campaignData} options={campaignOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               Facebook leads in spend but TikTok has highest ROAS at <span className="text-green-400 font-semibold">450%</span>
@@ -442,8 +418,8 @@ const UAMonetizationDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">Revenue Breakdown</h3>
               <DollarSign className="h-5 w-5 text-green-400" />
             </div>
-            <div className="h-64">
-              <Doughnut data={revenueBreakdownData} options={chartOptions} />
+            <div className="chart-md">
+              <DoughnutChart data={revenueBreakdownData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               IAP dominates at <span className="text-blue-400 font-semibold">65%</span> of total revenue
@@ -457,8 +433,8 @@ const UAMonetizationDashboard: React.FC = () => {
             <h3 className="text-xl font-semibold text-white">Creative Performance Analysis</h3>
             <Eye className="h-5 w-5 text-orange-400" />
           </div>
-          <div className="h-80">
-            <Line data={creativePerformanceData} options={creativeOptions} />
+          <div className="chart-lg">
+            <LineChart data={creativePerformanceData} options={creativeOptions} theme="dark" />
           </div>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-gray-400">
@@ -479,8 +455,8 @@ const UAMonetizationDashboard: React.FC = () => {
             <h3 className="text-xl font-semibold text-white">LTV Cohort Analysis</h3>
             <Users className="h-5 w-5 text-purple-400" />
           </div>
-          <div className="h-80">
-            <Line data={ltvCohortData} options={chartOptions} />
+          <div className="chart-lg">
+            <LineChart data={ltvCohortData} options={chartOptions} theme="dark" />
           </div>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-gray-400">

@@ -180,10 +180,10 @@ const MonetizationDashboard: React.FC = () => {
   // Calculate period comparisons for KPI cards
   const getPeriodComparison = () => {
     if (trendData.length < 2) return { revenue: 0, ecpm: 0, users: 0, fillRate: 0, ctr: 0 };
-    
+
     const latest = trendData[trendData.length - 1];
     const previous = trendData[trendData.length - 2];
-    
+
     return {
       revenue: getTrendPercentage(latest.revenue, previous.revenue),
       ecpm: getTrendPercentage(latest.ecpm, previous.ecpm),
@@ -403,8 +403,8 @@ const MonetizationDashboard: React.FC = () => {
                       <div className="w-16 h-8 bg-gray-100 rounded">
                         {/* Mini sparkline would go here */}
                         <div className="text-xs text-center pt-1">
-                          {app.trend.length > 1 ? 
-                            (app.trend[app.trend.length - 1] > app.trend[0] ? '↗' : '↘') : 
+                          {app.trend.length > 1 ?
+                            (app.trend[app.trend.length - 1] > app.trend[0] ? '↗' : '↘') :
                             '→'
                           }
                         </div>

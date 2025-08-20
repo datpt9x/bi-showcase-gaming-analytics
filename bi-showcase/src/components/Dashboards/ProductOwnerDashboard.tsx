@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
+import { LineChart, BarChart, DoughnutChart, SankeyChart } from '../Charts/EChartsComponents';
 import { useMobileOptimizations } from '../Layout/MobileOptimizations';
 import { useGameData } from '../../hooks/useGameData';
 import {
@@ -31,33 +19,23 @@ import {
   Calendar,
   TestTube,
   UserCheck,
-  SkipForward
+  SkipForward,
+  GitBranch,
+  ArrowRight
 } from 'lucide-react';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
 
 const ProductOwnerDashboard: React.FC = () => {
   const [timeRange, setTimeRange] = useState('7d');
   const [selectedGame, setSelectedGame] = useState('all');
   const { isMobile, getGridClass, getButtonClass, getChartOptions } = useMobileOptimizations();
-  const { 
+  const {
     games,
-    aggregatedMetrics, 
-    isLoading, 
-    isSimulating, 
-    startSimulation, 
-    stopSimulation, 
-    refreshData 
+    aggregatedMetrics,
+    isLoading,
+    isSimulating,
+    startSimulation,
+    stopSimulation,
+    refreshData
   } = useGameData();
 
   // Product-specific KPIs
@@ -246,6 +224,63 @@ const ProductOwnerDashboard: React.FC = () => {
     ],
   };
 
+  // User Journey Sankey Data
+  const userJourneySankeyData = {
+    nodes: [
+      // Source nodes (acquisition channels)
+      { name: 'App Store' },
+      { name: 'Google Play' },
+      { name: 'Social Media' },
+      { name: 'Referrals' },
+
+      // Middle nodes (user actions)
+      { name: 'App Install' },
+      { name: 'Tutorial Start' },
+      { name: 'Tutorial Complete' },
+      { name: 'First Level' },
+      { name: 'Level 5' },
+      { name: 'Level 10' },
+
+      // End nodes (outcomes)
+      { name: 'First Purchase' },
+      { name: 'Active Player' },
+      { name: 'Churned' },
+    ],
+    links: [
+      // Acquisition to Install
+      { source: 'App Store', target: 'App Install', value: 45000 },
+      { source: 'Google Play', target: 'App Install', value: 35000 },
+      { source: 'Social Media', target: 'App Install', value: 15000 },
+      { source: 'Referrals', target: 'App Install', value: 5000 },
+
+      // Install to Tutorial
+      { source: 'App Install', target: 'Tutorial Start', value: 85000 },
+      { source: 'App Install', target: 'Churned', value: 15000 },
+
+      // Tutorial Flow
+      { source: 'Tutorial Start', target: 'Tutorial Complete', value: 68000 },
+      { source: 'Tutorial Start', target: 'Churned', value: 17000 },
+
+      // Level Progression
+      { source: 'Tutorial Complete', target: 'First Level', value: 65000 },
+      { source: 'Tutorial Complete', target: 'Churned', value: 3000 },
+
+      { source: 'First Level', target: 'Level 5', value: 52000 },
+      { source: 'First Level', target: 'Churned', value: 13000 },
+
+      { source: 'Level 5', target: 'Level 10', value: 41000 },
+      { source: 'Level 5', target: 'First Purchase', value: 8000 },
+      { source: 'Level 5', target: 'Churned', value: 3000 },
+
+      // Final Outcomes
+      { source: 'Level 10', target: 'Active Player', value: 35000 },
+      { source: 'Level 10', target: 'First Purchase', value: 4000 },
+      { source: 'Level 10', target: 'Churned', value: 2000 },
+
+      { source: 'First Purchase', target: 'Active Player', value: 12000 },
+    ],
+  };
+
   const baseChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -306,11 +341,11 @@ const ProductOwnerDashboard: React.FC = () => {
             <h1 className="text-3xl font-bold text-white mb-2">Product Owner Dashboard</h1>
             <p className="text-gray-400">Player behavior, level analytics, and feature performance insights</p>
           </div>
-          
+
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <div className="flex items-center space-x-2">
               <Filter className="h-4 w-4 text-gray-400" />
-              <select 
+              <select
                 value={selectedGame}
                 onChange={(e) => setSelectedGame(e.target.value)}
                 className="bg-gray-700 text-white px-3 py-1 rounded border border-gray-600"
@@ -324,7 +359,7 @@ const ProductOwnerDashboard: React.FC = () => {
 
             <div className="flex items-center space-x-2">
               <Calendar className="h-4 w-4 text-gray-400" />
-              <select 
+              <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
                 className="bg-gray-700 text-white px-3 py-1 rounded border border-gray-600"
@@ -335,7 +370,7 @@ const ProductOwnerDashboard: React.FC = () => {
                 <option value="90d">Last 90 days</option>
               </select>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <button
                 onClick={isSimulating ? stopSimulation : startSimulation}
@@ -348,7 +383,7 @@ const ProductOwnerDashboard: React.FC = () => {
                 {isSimulating ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                 <span>{isSimulating ? 'LIVE' : 'START'}</span>
               </button>
-              
+
               <button
                 onClick={refreshData}
                 className={`${getButtonClass()} rounded font-medium transition-colors bg-blue-600 hover:bg-blue-700 text-white flex items-center space-x-2`}
@@ -391,8 +426,8 @@ const ProductOwnerDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">Player Journey Funnel</h3>
               <Gamepad2 className="h-5 w-5 text-blue-400" />
             </div>
-            <div className="h-64">
-              <Bar data={playerJourneyData} options={chartOptions} />
+            <div className="chart-md">
+              <BarChart data={playerJourneyData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               Conversion rate from install to first purchase: <span className="text-green-400 font-semibold">8.5%</span>
@@ -405,12 +440,49 @@ const ProductOwnerDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">A/B Test: New Tutorial</h3>
               <TestTube className="h-5 w-5 text-purple-400" />
             </div>
-            <div className="h-64">
-              <Doughnut data={abTestData} options={chartOptions} />
+            <div className="chart-md">
+              <DoughnutChart data={abTestData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               Variant A shows <span className="text-green-400 font-semibold">+28% improvement</span> in conversion
             </div>
+          </div>
+        </div>
+
+        {/* User Journey Flow - Sankey Chart */}
+        <div className="bg-gray-800 rounded-lg p-6 border border-gray-700 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-semibold text-white">User Journey Flow Analysis</h3>
+            <GitBranch className="h-5 w-5 text-cyan-400" />
+          </div>
+          <div className="chart-xl">
+            <SankeyChart data={userJourneySankeyData} options={{}} theme="dark" />
+          </div>
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+            <div className="text-gray-400">
+              <span className="text-blue-400 font-semibold">Acquisition:</span> 100K total installs
+            </div>
+            <div className="text-gray-400">
+              <span className="text-green-400 font-semibold">Tutorial Completion:</span> 68% success rate
+            </div>
+            <div className="text-gray-400">
+              <span className="text-yellow-400 font-semibold">Level 10 Reach:</span> 41% of tutorial completers
+            </div>
+            <div className="text-gray-400">
+              <span className="text-purple-400 font-semibold">Purchase Rate:</span> 12% of engaged users
+            </div>
+          </div>
+          <div className="mt-4 p-4 bg-gray-700 rounded-lg">
+            <h4 className="text-white font-semibold mb-2 flex items-center">
+              <ArrowRight className="h-4 w-4 mr-2 text-cyan-400" />
+              Key Insights
+            </h4>
+            <ul className="text-sm text-gray-300 space-y-1">
+              <li>• <span className="text-red-400">17% drop-off</span> during tutorial - consider simplifying onboarding</li>
+              <li>• <span className="text-green-400">Strong retention</span> after Level 5 - focus on getting users there</li>
+              <li>• <span className="text-blue-400">App Store</span> provides highest quality users (better conversion)</li>
+              <li>• <span className="text-yellow-400">Social referrals</span> have highest engagement but lowest volume</li>
+            </ul>
           </div>
         </div>
 
@@ -420,8 +492,8 @@ const ProductOwnerDashboard: React.FC = () => {
             <h3 className="text-xl font-semibold text-white">Level Analytics & Difficulty Curve</h3>
             <BarChart3 className="h-5 w-5 text-yellow-400" />
           </div>
-          <div className="h-80">
-            <Line data={levelAnalyticsData} options={levelOptions} />
+          <div className="chart-lg">
+            <LineChart data={levelAnalyticsData} options={levelOptions} theme="dark" />
           </div>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-gray-400">
@@ -442,8 +514,8 @@ const ProductOwnerDashboard: React.FC = () => {
             <h3 className="text-xl font-semibold text-white">Retention Cohort Analysis</h3>
             <Users className="h-5 w-5 text-green-400" />
           </div>
-          <div className="h-80">
-            <Line data={retentionData} options={chartOptions} />
+          <div className="chart-lg">
+            <LineChart data={retentionData} options={chartOptions} theme="dark" />
           </div>
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             <div className="text-gray-400">

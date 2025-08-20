@@ -23,18 +23,18 @@ const MultiSelectFilter: React.FC<MultiSelectFilterProps> = ({
 
   const filteredOptions = useMemo(() => {
     if (!searchTerm) return options;
-    return options.filter(option => 
+    return options.filter(option =>
       option.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [options, searchTerm]);
 
   const selectAllState = useMemo(() => {
     if (filteredOptions.length === 0) return 'none';
-    
-    const selectedCount = filteredOptions.filter(option => 
+
+    const selectedCount = filteredOptions.filter(option =>
       selectedValues.includes(option)
     ).length;
-    
+
     if (selectedCount === 0) return 'none';
     if (selectedCount === filteredOptions.length) return 'all';
     return 'partial';
@@ -42,10 +42,10 @@ const MultiSelectFilter: React.FC<MultiSelectFilterProps> = ({
 
   const handleSelectAll = () => {
     const allSelected = selectAllState === 'all';
-    
+
     if (allSelected) {
       // Deselect all filtered options
-      const newValues = selectedValues.filter(value => 
+      const newValues = selectedValues.filter(value =>
         !filteredOptions.includes(value)
       );
       onChange(newValues);
@@ -58,7 +58,7 @@ const MultiSelectFilter: React.FC<MultiSelectFilterProps> = ({
 
   const handleOptionToggle = (option: string) => {
     const isSelected = selectedValues.includes(option);
-    
+
     if (isSelected) {
       onChange(selectedValues.filter(value => value !== option));
     } else {
@@ -158,7 +158,7 @@ const MultiSelectFilter: React.FC<MultiSelectFilterProps> = ({
                   </span>
                 )}
               </button>
-              
+
               {selectedValues.length > 0 && (
                 <button
                   onClick={handleClearAll}

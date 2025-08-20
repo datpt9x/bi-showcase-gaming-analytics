@@ -1,30 +1,37 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 
-// Lazy load chart components
-const LazyLine = lazy(() => import('react-chartjs-2').then(module => ({ default: module.Line })));
-const LazyBar = lazy(() => import('react-chartjs-2').then(module => ({ default: module.Bar })));
-const LazyDoughnut = lazy(() => import('react-chartjs-2').then(module => ({ default: module.Doughnut })));
-const LazyPie = lazy(() => import('react-chartjs-2').then(module => ({ default: module.Pie })));
-const LazyRadar = lazy(() => import('react-chartjs-2').then(module => ({ default: module.Radar })));
+// Lazy load ECharts components
+const LazyLine = lazy(() => import('../Charts/EChartsComponents').then(module => ({ default: module.LineChart })));
+const LazyBar = lazy(() => import('../Charts/EChartsComponents').then(module => ({ default: module.BarChart })));
+const LazyDoughnut = lazy(() => import('../Charts/EChartsComponents').then(module => ({ default: module.DoughnutChart })));
+const LazyPie = lazy(() => import('../Charts/EChartsComponents').then(module => ({ default: module.PieChart })));
+const LazyRadar = lazy(() => import('../Charts/EChartsComponents').then(module => ({ default: module.RadarChart })));
 
 interface LazyChartProps {
   type: 'line' | 'bar' | 'doughnut' | 'pie' | 'radar';
   data: any;
-  options: any;
+  options?: any;
   className?: string;
+  theme?: 'light' | 'dark';
 }
 
-const ChartSkeleton: React.FC = () => (
-  <div className="w-full h-full flex items-center justify-center bg-gray-800/50 rounded-lg">
+const ChartSkeleton: React.FC<{ theme?: 'light' | 'dark' }> = ({ theme = 'light' }) => (
+  <div className={`w-full h-full flex items-center justify-center rounded-lg ${
+    theme === 'dark' ? 'bg-gray-800/50' : 'bg-gray-100'
+  }`}>
     <div className="text-center">
-      <Loader2 className="h-8 w-8 text-blue-400 animate-spin mx-auto mb-2" />
-      <p className="text-gray-400 text-sm">Loading chart...</p>
+      <Loader2 className={`h-8 w-8 animate-spin mx-auto mb-2 ${
+        theme === 'dark' ? 'text-blue-400' : 'text-gray-400'
+      }`} />
+      <p className={`text-sm ${
+        theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+      }`}>Loading chart...</p>
     </div>
   </div>
 );
 
-const LazyChart: React.FC<LazyChartProps> = ({ type, data, options, className = "" }) => {
+const LazyChart: React.FC<LazyChartProps> = ({ type, data, options, className = "", theme = 'light' }) => {
   const [isInView, setIsInView] = useState(false);
   const [chartRef, setChartRef] = useState<HTMLDivElement | null>(null);
 
@@ -48,44 +55,44 @@ const LazyChart: React.FC<LazyChartProps> = ({ type, data, options, className = 
 
   const renderChart = () => {
     if (!isInView) {
-      return <ChartSkeleton />;
+      return <ChartSkeleton theme={theme} />;
     }
 
-    const chartProps = { data, options };
+    const chartProps = { data, options, className, theme };
 
     switch (type) {
       case 'line':
         return (
-          <Suspense fallback={<ChartSkeleton />}>
+          <Suspense fallback={<ChartSkeleton theme={theme} />}>
             <LazyLine {...chartProps} />
           </Suspense>
         );
       case 'bar':
         return (
-          <Suspense fallback={<ChartSkeleton />}>
+          <Suspense fallback={<ChartSkeleton theme={theme} />}>
             <LazyBar {...chartProps} />
           </Suspense>
         );
       case 'doughnut':
         return (
-          <Suspense fallback={<ChartSkeleton />}>
+          <Suspense fallback={<ChartSkeleton theme={theme} />}>
             <LazyDoughnut {...chartProps} />
           </Suspense>
         );
       case 'pie':
         return (
-          <Suspense fallback={<ChartSkeleton />}>
+          <Suspense fallback={<ChartSkeleton theme={theme} />}>
             <LazyPie {...chartProps} />
           </Suspense>
         );
       case 'radar':
         return (
-          <Suspense fallback={<ChartSkeleton />}>
+          <Suspense fallback={<ChartSkeleton theme={theme} />}>
             <LazyRadar {...chartProps} />
           </Suspense>
         );
       default:
-        return <ChartSkeleton />;
+        return <ChartSkeleton theme={theme} />;
     }
   };
 

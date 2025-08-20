@@ -1,45 +1,18 @@
 import React, { useState } from 'react';
+import { LineChart, BarChart, DoughnutChart, PieChart, RadarChart, SankeyChart } from './EChartsComponents';
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  RadialLinearScale,
-  Filler,
-} from 'chart.js';
-import { Line, Bar, Doughnut, Pie, Radar, PolarArea } from 'react-chartjs-2';
-import { 
-  TrendingUp, 
-  BarChart3, 
-  PieChart, 
+  TrendingUp,
+  BarChart3,
+  PieChart as PieChartIcon,
   Activity,
   Target,
   Globe,
   Filter,
   Download,
   Share,
-  Code
+  Code,
+  GitBranch
 } from 'lucide-react';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  RadialLinearScale,
-  Filler
-);
 
 const ChartGallery: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -52,6 +25,7 @@ const ChartGallery: React.FC = () => {
     { id: 'funnel', name: 'Funnel', icon: <Activity className="h-4 w-4" /> },
     { id: 'performance', name: 'Performance', icon: <BarChart3 className="h-4 w-4" /> },
     { id: 'geographic', name: 'Geographic', icon: <Globe className="h-4 w-4" /> },
+    { id: 'user-behavior', name: 'User Behavior', icon: <GitBranch className="h-4 w-4" /> },
   ];
 
   // Sample data for different chart types
@@ -149,6 +123,36 @@ const ChartGallery: React.FC = () => {
     ],
   };
 
+  const userJourneyFlowData = {
+    nodes: [
+      { name: 'App Store' },
+      { name: 'Google Play' },
+      { name: 'Social Media' },
+      { name: 'App Install' },
+      { name: 'Tutorial' },
+      { name: 'First Level' },
+      { name: 'Level 5' },
+      { name: 'First Purchase' },
+      { name: 'Active Player' },
+      { name: 'Churned' },
+    ],
+    links: [
+      { source: 'App Store', target: 'App Install', value: 5000 },
+      { source: 'Google Play', target: 'App Install', value: 3500 },
+      { source: 'Social Media', target: 'App Install', value: 1500 },
+      { source: 'App Install', target: 'Tutorial', value: 8500 },
+      { source: 'App Install', target: 'Churned', value: 1500 },
+      { source: 'Tutorial', target: 'First Level', value: 6800 },
+      { source: 'Tutorial', target: 'Churned', value: 1700 },
+      { source: 'First Level', target: 'Level 5', value: 5200 },
+      { source: 'First Level', target: 'Churned', value: 1600 },
+      { source: 'Level 5', target: 'First Purchase', value: 800 },
+      { source: 'Level 5', target: 'Active Player', value: 3500 },
+      { source: 'Level 5', target: 'Churned', value: 900 },
+      { source: 'First Purchase', target: 'Active Player', value: 800 },
+    ],
+  };
+
   const charts = [
     {
       id: 'retention-cohort',
@@ -156,7 +160,7 @@ const ChartGallery: React.FC = () => {
       description: 'Track user retention across different cohorts over time',
       category: 'retention',
       type: 'Line',
-      component: <Line data={retentionCohortData} options={{ responsive: true, maintainAspectRatio: false }} />,
+      component: <LineChart data={retentionCohortData} options={{ responsive: true, maintainAspectRatio: false }} />,
       useCase: 'Monitor player retention patterns and identify successful cohorts',
       metrics: ['D1 Retention', 'D7 Retention', 'D30 Retention']
     },
@@ -166,7 +170,7 @@ const ChartGallery: React.FC = () => {
       description: 'Visualize revenue changes and contributing factors',
       category: 'revenue',
       type: 'Bar',
-      component: <Bar data={revenueWaterfallData} options={{ responsive: true, maintainAspectRatio: false }} />,
+      component: <BarChart data={revenueWaterfallData} options={{ responsive: true, maintainAspectRatio: false }} />,
       useCase: 'Understand revenue drivers and identify optimization opportunities',
       metrics: ['Revenue Growth', 'User Acquisition Impact', 'Churn Impact']
     },
@@ -176,7 +180,7 @@ const ChartGallery: React.FC = () => {
       description: 'Track user progression through key conversion steps',
       category: 'funnel',
       type: 'Bar',
-      component: <Bar data={funnelData} options={{ responsive: true, maintainAspectRatio: false, indexAxis: 'y' as const }} />,
+      component: <BarChart data={funnelData} options={{ responsive: true, maintainAspectRatio: false, indexAxis: 'y' as const }} />,
       useCase: 'Identify conversion bottlenecks and optimize user flow',
       metrics: ['Conversion Rate', 'Drop-off Rate', 'Funnel Efficiency']
     },
@@ -186,7 +190,7 @@ const ChartGallery: React.FC = () => {
       description: 'Multi-dimensional performance analysis',
       category: 'performance',
       type: 'Radar',
-      component: <Radar data={performanceRadarData} options={{ responsive: true, maintainAspectRatio: false }} />,
+      component: <RadarChart data={performanceRadarData} options={{ responsive: true, maintainAspectRatio: false }} />,
       useCase: 'Compare current vs target performance across multiple metrics',
       metrics: ['Technical KPIs', 'User Experience', 'Quality Metrics']
     },
@@ -196,14 +200,24 @@ const ChartGallery: React.FC = () => {
       description: 'Revenue breakdown by geographic regions',
       category: 'geographic',
       type: 'Doughnut',
-      component: <Doughnut data={geoRevenueData} options={{ responsive: true, maintainAspectRatio: false }} />,
+      component: <DoughnutChart data={geoRevenueData} options={{ responsive: true, maintainAspectRatio: false }} />,
       useCase: 'Understand market performance and plan regional strategies',
       metrics: ['Regional Revenue', 'Market Share', 'Growth Potential']
     },
+    {
+      id: 'user-journey-flow',
+      title: 'User Journey Flow Analysis',
+      description: 'Visualize user flow from acquisition to conversion',
+      category: 'user-behavior',
+      type: 'Sankey',
+      component: <SankeyChart data={userJourneyFlowData} options={{ responsive: true, maintainAspectRatio: false }} />,
+      useCase: 'Track user progression and identify conversion bottlenecks',
+      metrics: ['User Flow', 'Conversion Funnel', 'Drop-off Points']
+    },
   ];
 
-  const filteredCharts = selectedCategory === 'all' 
-    ? charts 
+  const filteredCharts = selectedCategory === 'all'
+    ? charts
     : charts.filter(chart => chart.category === selectedCategory);
 
   const chartOptions = {
@@ -248,7 +262,7 @@ const ChartGallery: React.FC = () => {
             </span>
           </h1>
           <p className="text-xl text-white/80 max-w-3xl mx-auto">
-            Comprehensive collection of interactive charts and visualizations 
+            Comprehensive collection of interactive charts and visualizations
             for gaming and mobile app analytics.
           </p>
         </div>
@@ -274,7 +288,7 @@ const ChartGallery: React.FC = () => {
         {/* Charts Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {filteredCharts.map((chart) => (
-            <div 
+            <div
               key={chart.id}
               className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-gray-600 transition-all duration-300"
             >
@@ -312,7 +326,7 @@ const ChartGallery: React.FC = () => {
                   <h4 className="text-white font-medium mb-2">Key Metrics:</h4>
                   <div className="flex flex-wrap gap-2">
                     {chart.metrics.map((metric, idx) => (
-                      <span 
+                      <span
                         key={idx}
                         className="bg-gray-700 text-gray-300 px-2 py-1 rounded text-xs"
                       >
@@ -333,7 +347,7 @@ const ChartGallery: React.FC = () => {
               Need Custom Visualizations?
             </h3>
             <p className="text-white/80 mb-6 max-w-2xl mx-auto">
-              Our BI platform supports custom chart development and advanced visualization techniques 
+              Our BI platform supports custom chart development and advanced visualization techniques
               tailored to your specific analytics needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -1,17 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
+import { LineChart, BarChart, DoughnutChart } from '../Charts/EChartsComponents';
 import { useMobileOptimizations } from '../Layout/MobileOptimizations';
 import { useGameData } from '../../hooks/useGameData';
 import {
@@ -39,29 +27,19 @@ import {
   MessageSquare
 } from 'lucide-react';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
+
 
 const TechnicalHealthDashboard: React.FC = () => {
   const [timeRange, setTimeRange] = useState('7d');
   const [selectedPlatform, setSelectedPlatform] = useState('all');
   const { isMobile, getGridClass, getButtonClass, getChartOptions } = useMobileOptimizations();
-  const { 
-    aggregatedMetrics, 
-    isLoading, 
-    isSimulating, 
-    startSimulation, 
-    stopSimulation, 
-    refreshData 
+  const {
+    aggregatedMetrics,
+    isLoading,
+    isSimulating,
+    startSimulation,
+    stopSimulation,
+    refreshData
   } = useGameData();
 
   // Technical Health KPIs
@@ -349,11 +327,11 @@ const TechnicalHealthDashboard: React.FC = () => {
             <h1 className="text-3xl font-bold text-white mb-2">Technical Health Dashboard</h1>
             <p className="text-gray-400">Performance monitoring, error tracking, and system health insights</p>
           </div>
-          
+
           <div className="flex items-center space-x-4 mt-4 md:mt-0">
             <div className="flex items-center space-x-2">
               <Filter className="h-4 w-4 text-gray-400" />
-              <select 
+              <select
                 value={selectedPlatform}
                 onChange={(e) => setSelectedPlatform(e.target.value)}
                 className="bg-gray-700 text-white px-3 py-1 rounded border border-gray-600"
@@ -367,7 +345,7 @@ const TechnicalHealthDashboard: React.FC = () => {
 
             <div className="flex items-center space-x-2">
               <Calendar className="h-4 w-4 text-gray-400" />
-              <select 
+              <select
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
                 className="bg-gray-700 text-white px-3 py-1 rounded border border-gray-600"
@@ -378,7 +356,7 @@ const TechnicalHealthDashboard: React.FC = () => {
                 <option value="30d">Last 30 days</option>
               </select>
             </div>
-            
+
             <div className="flex items-center space-x-2">
               <button
                 onClick={isSimulating ? stopSimulation : startSimulation}
@@ -391,7 +369,7 @@ const TechnicalHealthDashboard: React.FC = () => {
                 {isSimulating ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                 <span>{isSimulating ? 'LIVE' : 'START'}</span>
               </button>
-              
+
               <button
                 onClick={refreshData}
                 className={`${getButtonClass()} rounded font-medium transition-colors bg-blue-600 hover:bg-blue-700 text-white flex items-center space-x-2`}
@@ -458,8 +436,8 @@ const TechnicalHealthDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">Performance Trends</h3>
               <Activity className="h-5 w-5 text-green-400" />
             </div>
-            <div className="h-64">
-              <Line data={performanceTrendData} options={performanceOptions} />
+            <div className="chart-md">
+              <LineChart data={performanceTrendData} options={performanceOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               Crash rate improved by <span className="text-green-400 font-semibold">45%</span> this week
@@ -472,8 +450,8 @@ const TechnicalHealthDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">Device Performance</h3>
               <Smartphone className="h-5 w-5 text-blue-400" />
             </div>
-            <div className="h-64">
-              <Bar data={devicePerformanceData} options={chartOptions} />
+            <div className="chart-md">
+              <BarChart data={devicePerformanceData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               iPhone 14 leads with <span className="text-green-400 font-semibold">60 FPS</span> average
@@ -489,8 +467,8 @@ const TechnicalHealthDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">Error Distribution</h3>
               <AlertTriangle className="h-5 w-5 text-red-400" />
             </div>
-            <div className="h-64">
-              <Doughnut data={errorDistributionData} options={chartOptions} />
+            <div className="chart-md">
+              <DoughnutChart data={errorDistributionData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               Memory leaks account for <span className="text-red-400 font-semibold">35%</span> of errors
@@ -503,8 +481,8 @@ const TechnicalHealthDashboard: React.FC = () => {
               <h3 className="text-xl font-semibold text-white">System Resources</h3>
               <Server className="h-5 w-5 text-purple-400" />
             </div>
-            <div className="h-64">
-              <Line data={systemHealthData} options={chartOptions} />
+            <div className="chart-md">
+              <LineChart data={systemHealthData} options={chartOptions} theme="dark" />
             </div>
             <div className="mt-4 text-sm text-gray-400">
               Peak usage during <span className="text-yellow-400 font-semibold">16:00-20:00</span> hours

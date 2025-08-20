@@ -34,7 +34,7 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ data, filters, onFiltersChang
       const adSources = [...new Set(data.map(d => d.adSource))].sort();
       const countries = [...new Set(data.map(d => d.country))].sort();
       const formats = [...new Set(data.map(d => d.format))].sort();
-      
+
       const dates = data.map(d => d.date).sort();
       const minDate = dates[0];
       const maxDate = dates[dates.length - 1];
